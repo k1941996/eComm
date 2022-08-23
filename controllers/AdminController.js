@@ -55,7 +55,6 @@ const loggedInUser = (request, response) => {
 };
 
 const getTest = (req, res) => {
-	console.log(req.query);
 	res.send('ok');
 };
 

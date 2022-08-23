@@ -11,6 +11,8 @@ const ProductSchema = new Schema(
 		discountPrice: { type: String },
 		offer: { type: String },
 		productWeight: { type: String },
+		keyWord: { type: String },
+		category: { type: String },
 	},
 	{
 		timestamps: true,

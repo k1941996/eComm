@@ -31,4 +31,32 @@ const addProduct = (req, res) => {
 		});
 };
 
-module.exports = { addProduct };
+const getById = (req, res) => {
+	const productId = req.params.id;
+	Product.findOne({ _id: productId })
+		.then((product) => {
+			console.log(product);
+			res.status(200).json(product);
+		})
+		.catch((e) => {
+			res.send(`Something Went Wrong ${e}`);
+		});
+};
+
+const getAllProducts = (req, res) => {
+	Product.find()
+		.then((productList) => {
+			res.json(productList);
+		})
+		.catch((e) => {
+			res.send(`Something Went Wrong ${e}`);
+		});
+};
+/* const deleteProduct = (req, res) => {
+	console.log(req, res);
+};
+const updateProduct = (req, res) => {
+	console.log(req, res);
+}; */
+
+module.exports = { addProduct, getById, getAllProducts }; //, deleteProduct, updateProduct };

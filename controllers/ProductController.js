@@ -9,6 +9,8 @@ const addProduct = (req, res) => {
 	const discountPrice = req.body.discountPrice;
 	const offer = req.body.offer;
 	const productWeight = req.body.productWeight;
+	const keyWord = req.body.keyWord;
+	const category = req.body.category;
 
 	const product = new Product({
 		productName,
@@ -19,6 +21,8 @@ const addProduct = (req, res) => {
 		discountPrice,
 		offer,
 		productWeight,
+		keyWord,
+		category,
 	});
 	product
 		.save()
@@ -28,6 +32,17 @@ const addProduct = (req, res) => {
 		})
 		.catch((e) => {
 			res.status(501).send(`Something's wrong - ${e}`);
+		});
+};
+
+const addMultipleProducts = (req, res) => {
+	const arrData = req.body.arrData;
+	Product.insertMany(arrData)
+		.then((response) => {
+			res.send(`inserted Many records`);
+		})
+		.catch((err) => {
+			res.send(`Something Went Wrong ${err}`);
 		});
 };
 
@@ -52,11 +67,25 @@ const getAllProducts = (req, res) => {
 			res.send(`Something Went Wrong ${e}`);
 		});
 };
-/* const deleteProduct = (req, res) => {
-	console.log(req, res);
+
+const deleteProduct = (req, res) => {
+	const productId = req.params.id;
+	Product.deleteOne({ _id: productId })
+		.then((e) => {
+			if (e?.deletedCount > 0) {
+				res.json(e);
+			}
+			else {
+				res.json({response:'Unable to find record with the specified Id'})
+			}
+		})
+		.catch((err) => {
+			res.send(`Something Went Wrong ${err}`);
+		});
 };
+/*
 const updateProduct = (req, res) => {
 	console.log(req, res);
 }; */
 
-module.exports = { addProduct, getById, getAllProducts }; //, deleteProduct, updateProduct };
+module.exports = { addProduct, getById, getAllProducts, deleteProduct, addMultipleProducts };
